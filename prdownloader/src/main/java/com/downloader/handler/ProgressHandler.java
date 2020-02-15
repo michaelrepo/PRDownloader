@@ -24,26 +24,31 @@ import com.downloader.Constants;
 import com.downloader.Progress;
 import com.downloader.OnProgressListener;
 
+import java.util.List;
+
 /**
  * Created by amitshekhar on 13/11/17.
  */
 
 public class ProgressHandler extends Handler {
 
-    private final OnProgressListener listener;
+    private final List<OnProgressListener> listeners;
 
-    public ProgressHandler(OnProgressListener listener) {
+    public ProgressHandler(List<OnProgressListener> listeners) {
         super(Looper.getMainLooper());
-        this.listener = listener;
+        this.listeners = listeners;
     }
 
     @Override
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case Constants.UPDATE:
-                if (listener != null) {
+                if (listeners != null && listeners.size() > 0) {
                     final Progress progress = (Progress) msg.obj;
-                    listener.onProgress(progress);
+                    for (int i = 0; i < listeners.size(); i++) {
+                        listeners.get(i).onProgress(progress);
+                    }
+
                 }
                 break;
             default:

@@ -25,6 +25,7 @@ import android.content.Context;
 import com.downloader.core.Core;
 import com.downloader.internal.ComponentHolder;
 import com.downloader.internal.DownloadRequestQueue;
+import com.downloader.request.DownloadRequest;
 import com.downloader.request.DownloadRequestBuilder;
 import com.downloader.utils.Utils;
 
@@ -82,6 +83,15 @@ public class PRDownloader {
         DownloadRequestQueue.getInstance().pause(downloadId);
     }
 
+
+    public static void pauseAll() {
+        DownloadRequestQueue.getInstance().pauseAll();
+    }
+
+    public static void pauseOthers(int downloadId) {
+        DownloadRequestQueue.getInstance().pauseOthers(downloadId);
+    }
+
     /**
      * Method to resume request with the given downloadId
      *
@@ -89,6 +99,14 @@ public class PRDownloader {
      */
     public static void resume(int downloadId) {
         DownloadRequestQueue.getInstance().resume(downloadId);
+    }
+
+    public static void resumeAll() {
+        DownloadRequestQueue.getInstance().resumeAll();
+    }
+
+    public static void resumeOthers(int downloadId) {
+        DownloadRequestQueue.getInstance().resumeOthers(downloadId);
     }
 
     /**
@@ -116,6 +134,7 @@ public class PRDownloader {
         DownloadRequestQueue.getInstance().cancelAll();
     }
 
+
     /**
      * Method to check the request with the given downloadId is running or not
      *
@@ -124,6 +143,17 @@ public class PRDownloader {
      */
     public static Status getStatus(int downloadId) {
         return DownloadRequestQueue.getInstance().getStatus(downloadId);
+    }
+
+
+    /**
+     * Method to return a downloadRequest with the given downloadId is running or not
+     *
+     * @param downloadId
+     * @return
+     */
+    public static DownloadRequest getDownloadRequest(int downloadId) {
+        return DownloadRequestQueue.getInstance().getDownloadRequest(downloadId);
     }
 
     /**

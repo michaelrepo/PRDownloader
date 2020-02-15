@@ -1,24 +1,10 @@
-/*
- *    Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package com.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -40,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static String dirPath;
 
-    final String URL1 = "http://www.appsapk.com/downloading/latest/Facebook-119.0.0.23.70.apk";
-    final String URL2 = "http://www.appsapk.com/downloading/latest/WeChat-6.5.7.apk";
-    final String URL3 = "http://www.appsapk.com/downloading/latest/Instagram.apk";
-    final String URL4 = "http://www.appsapk.com/downloading/latest/Emoji%20Flashlight%20-%20Brightest%20Flashlight%202018-2.0.1.apk";
-    final String URL5 = "http://www.appsapk.com/downloading/latest/Screen%20Recorder-7.7.apk";
-    final String URL6 = "http://www.appsapk.com/downloading/latest/Call%20Recorder%20-%20Automatic%20Call%20Recorder-1.6.0.apk";
-    final String URL7 = "http://www.appsapk.com/downloading/latest/Sound%20Profile%20(+%20volume%20scheduler)-5.25.apk";
-    final String URL8 = "http://www.appsapk.com/downloading/latest/Evernote%20-%20stay%20organized.-7.9.7.apk";
+    final String URL1 = "http://wdj-qn-apk.wdjcdn.com/e/b8/520c1a2208bf7724b96f538247233b8e.apk";
+    final String URL2 = "http://wdj-uc1-apk.wdjcdn.com/1/a3/8ee2c3f8a6a4a20116eed72e7645aa31.apk";
+    final String URL3 = "http://wdj-qn-apk.wdjcdn.com/a/e9/618d265197a43dab6277c41ec5f72e9a.apk";
+    final String URL4 = "http://wdj-qn-apk.wdjcdn.com/6/0d/6e93a829b97d671ee56190aec78400d6.apk";
+    final String URL5 ="http://wdj-qn-apk.wdjcdn.com/e/b8/520c1a2208bf7724b96f538247233b8e.apk";
+    final String URL6 ="http://wdj-uc1-apk.wdjcdn.com/1/a3/8ee2c3f8a6a4a20116eed72e7645aa31.apk";
+    final String URL7 ="http://wdj-qn-apk.wdjcdn.com/a/e9/618d265197a43dab6277c41ec5f72e9a.apk";
+    final String URL8 ="http://wdj-qn-apk.wdjcdn.com/6/0d/6e93a829b97d671ee56190aec78400d6.apk";
     final String URL9 = "http://www.appsapk.com/downloading/latest/UC-Browser.apk";
     final String URL10 = "http://www.appsapk.com/downloading/latest/Barcode%20Scanner-1.2.apk";
     final String URL11 = "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v";
@@ -182,9 +168,21 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (Status.RUNNING == PRDownloader.getStatus(downloadIdOne)) {
-                    PRDownloader.pause(downloadIdOne);
+
+
+                    PRDownloader.getDownloadRequest(downloadIdOne).addOnProgressListener(new OnProgressListener() {
+                        @Override
+                        public void onProgress(Progress progress) {
+                            Log.i("ddd","ddddd");
+
+                        }
+                    });
+
+                    //PRDownloader.pause(downloadIdOne);
                     return;
                 }
+
+
 
                 buttonOne.setEnabled(false);
                 progressBarOne.setIndeterminate(true);
@@ -224,9 +222,10 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarOne.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
+                                Log.i("ddd","ddddd222222");
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
                                 progressBarOne.setProgress((int) progressPercent);
                                 textViewProgressOne.setText(Utils.getProgressDisplayLine(progress.currentBytes, progress.totalBytes));
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCancelOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PRDownloader.cancel(downloadIdOne);
+                PRDownloader.pauseOthers(downloadIdOne);
             }
         });
     }
@@ -282,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdTwo);
                     return;
                 }
+
                 downloadIdTwo = PRDownloader.download(URL2, dirPath, "wechat.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarTwo.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCancelTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PRDownloader.cancel(downloadIdTwo);
+                PRDownloader.resumeOthers(downloadIdOne);
             }
         });
     }
@@ -368,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdThree);
                     return;
                 }
+
                 downloadIdThree = PRDownloader.download(URL3, dirPath, "instagram.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
@@ -397,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarThree.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -483,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarFour.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -569,7 +570,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarFive.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -656,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarSix.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -743,7 +744,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarSeven.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -830,7 +831,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarEight.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -916,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarNine.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1002,7 +1003,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarTen.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1088,7 +1089,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarEleven.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1174,7 +1175,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarTwelve.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1260,7 +1261,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarThirteen.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1347,7 +1348,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarFourteen.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1434,7 +1435,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarFifteen.setIndeterminate(false);
                             }
                         })
-                        .setOnProgressListener(new OnProgressListener() {
+                        .addOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;

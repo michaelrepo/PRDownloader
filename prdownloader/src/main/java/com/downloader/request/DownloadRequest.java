@@ -22,6 +22,7 @@ import com.downloader.OnDownloadListener;
 import com.downloader.OnPauseListener;
 import com.downloader.OnProgressListener;
 import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
 import com.downloader.Priority;
 import com.downloader.Response;
 import com.downloader.Status;
@@ -31,6 +32,7 @@ import com.downloader.internal.DownloadRequestQueue;
 import com.downloader.internal.SynchronousCall;
 import com.downloader.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -53,7 +55,7 @@ public class DownloadRequest {
     private int readTimeout;
     private int connectTimeout;
     private String userAgent;
-    private OnProgressListener onProgressListener;
+    private List<OnProgressListener> onProgressListeners;
     private OnDownloadListener onDownloadListener;
     private OnStartOrResumeListener onStartOrResumeListener;
     private OnPauseListener onPauseListener;
@@ -199,8 +201,8 @@ public class DownloadRequest {
         this.status = status;
     }
 
-    public OnProgressListener getOnProgressListener() {
-        return onProgressListener;
+    public List<OnProgressListener> getOnProgressListener() {
+        return onProgressListeners;
     }
 
     public DownloadRequest setOnStartOrResumeListener(OnStartOrResumeListener onStartOrResumeListener) {
@@ -208,8 +210,11 @@ public class DownloadRequest {
         return this;
     }
 
-    public DownloadRequest setOnProgressListener(OnProgressListener onProgressListener) {
-        this.onProgressListener = onProgressListener;
+    public DownloadRequest addOnProgressListener(OnProgressListener onProgressListener) {
+        if (this.onProgressListeners == null) {
+            this.onProgressListeners = new ArrayList<>();
+        }
+        this.onProgressListeners.add(onProgressListener);
         return this;
     }
 
@@ -224,8 +229,13 @@ public class DownloadRequest {
     }
 
     public int start(OnDownloadListener onDownloadListener) {
-        this.onDownloadListener = onDownloadListener;
         downloadId = Utils.getUniqueId(url, dirPath, fileName);
+        if (PRDownloader.getStatus(downloadId) == Status.RUNNING) {
+            return downloadId;
+        }
+
+
+        this.onDownloadListener = onDownloadListener;
         DownloadRequestQueue.getInstance().addRequest(this);
         return downloadId;
     }
@@ -317,7 +327,7 @@ public class DownloadRequest {
     }
 
     private void destroy() {
-        this.onProgressListener = null;
+        this.onProgressListeners = null;
         this.onDownloadListener = null;
         this.onStartOrResumeListener = null;
         this.onPauseListener = null;

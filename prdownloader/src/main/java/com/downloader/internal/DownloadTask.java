@@ -16,6 +16,8 @@
 
 package com.downloader.internal;
 
+import android.util.Log;
+
 import com.downloader.Constants;
 import com.downloader.Error;
 import com.downloader.Progress;
@@ -202,6 +204,7 @@ public class DownloadTask {
                 outputStream.write(buff, 0, byteCount);
 
                 request.setDownloadedBytes(request.getDownloadedBytes() + byteCount);
+                Log.i("yatdrg",Thread.currentThread().toString());
 
                 sendProgress();
 

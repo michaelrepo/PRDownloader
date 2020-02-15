@@ -65,6 +65,29 @@ public class DownloadRequestQueue {
         }
     }
 
+    public void pauseAll() {
+        for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
+            DownloadRequest request = currentRequestMapEntry.getValue();
+            if (request != null) {
+                pause(request.getDownloadId());
+            }
+        }
+    }
+
+
+    public void pauseOthers(int downloadId) {
+        for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
+            DownloadRequest request = currentRequestMapEntry.getValue();
+            if (request != null) {
+                int id = request.getDownloadId();
+                if (id != downloadId) {
+                    pause(request.getDownloadId());
+                }
+            }
+        }
+    }
+
+
     public void resume(int downloadId) {
         DownloadRequest request = currentRequestMap.get(downloadId);
         if (request != null) {
@@ -73,6 +96,28 @@ public class DownloadRequestQueue {
                     .getExecutorSupplier()
                     .forDownloadTasks()
                     .submit(new DownloadRunnable(request)));
+        }
+    }
+
+    public void resumeAll() {
+        for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
+            DownloadRequest request = currentRequestMapEntry.getValue();
+            if (request != null) {
+                resume(request.getDownloadId());
+            }
+        }
+    }
+
+
+    public void resumeOthers(int downloadId) {
+        for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
+            DownloadRequest request = currentRequestMapEntry.getValue();
+            if (request != null) {
+                int id = request.getDownloadId();
+                if (id != downloadId) {
+                    resume(request.getDownloadId());
+                }
+            }
         }
     }
 
@@ -110,12 +155,17 @@ public class DownloadRequestQueue {
         }
     }
 
+
     public Status getStatus(int downloadId) {
         DownloadRequest request = currentRequestMap.get(downloadId);
         if (request != null) {
             return request.getStatus();
         }
         return Status.UNKNOWN;
+    }
+
+    public DownloadRequest getDownloadRequest(int downloadId) {
+        return currentRequestMap.get(downloadId);
     }
 
     public void addRequest(DownloadRequest request) {
