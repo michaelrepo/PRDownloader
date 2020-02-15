@@ -18,7 +18,8 @@ package com.downloader.request;
 
 import com.downloader.Error;
 import com.downloader.OnCancelListener;
-import com.downloader.OnDownloadListener;
+import com.downloader.OnCompleteListener;
+import com.downloader.OnErrorListener;
 import com.downloader.OnPauseListener;
 import com.downloader.OnProgressListener;
 import com.downloader.OnStartOrResumeListener;
@@ -56,10 +57,11 @@ public class DownloadRequest {
     private int connectTimeout;
     private String userAgent;
     private List<OnProgressListener> onProgressListeners;
-    private OnDownloadListener onDownloadListener;
+    private OnCompleteListener onCompleteListener;
     private OnStartOrResumeListener onStartOrResumeListener;
     private OnPauseListener onPauseListener;
     private OnCancelListener onCancelListener;
+    private OnErrorListener onErrorListener;
     private int downloadId;
     private HashMap<String, List<String>> headerMap;
     private Status status;
@@ -228,14 +230,21 @@ public class DownloadRequest {
         return this;
     }
 
-    public int start(OnDownloadListener onDownloadListener) {
+    public DownloadRequest setOnCompleteListener(OnCompleteListener onCompleteListener) {
+        this.onCompleteListener = onCompleteListener;
+        return this;
+    }
+
+    public DownloadRequest setOnErrorListener(OnErrorListener onErrorListener) {
+        this.onErrorListener = onErrorListener;
+        return this;
+    }
+
+    public int start() {
         downloadId = Utils.getUniqueId(url, dirPath, fileName);
         if (PRDownloader.getStatus(downloadId) == Status.RUNNING) {
             return downloadId;
         }
-
-
-        this.onDownloadListener = onDownloadListener;
         DownloadRequestQueue.getInstance().addRequest(this);
         return downloadId;
     }
@@ -251,8 +260,8 @@ public class DownloadRequest {
             Core.getInstance().getExecutorSupplier().forMainThreadTasks()
                     .execute(new Runnable() {
                         public void run() {
-                            if (onDownloadListener != null) {
-                                onDownloadListener.onError(error);
+                            if (onErrorListener != null) {
+                                onErrorListener.onError(error);
                             }
                             finish();
                         }
@@ -266,8 +275,8 @@ public class DownloadRequest {
             Core.getInstance().getExecutorSupplier().forMainThreadTasks()
                     .execute(new Runnable() {
                         public void run() {
-                            if (onDownloadListener != null) {
-                                onDownloadListener.onDownloadComplete();
+                            if (onCompleteListener != null) {
+                                onCompleteListener.onDownloadComplete();
                             }
                             finish();
                         }
@@ -328,7 +337,7 @@ public class DownloadRequest {
 
     private void destroy() {
         this.onProgressListeners = null;
-        this.onDownloadListener = null;
+        this.onCompleteListener = null;
         this.onStartOrResumeListener = null;
         this.onPauseListener = null;
         this.onCancelListener = null;
