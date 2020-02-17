@@ -355,22 +355,9 @@ public class MainActivity extends AppCompatActivity {
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Status.RUNNING == PRDownloader.getStatus(downloadIdThree)) {
-                    PRDownloader.pause(downloadIdThree);
-                    return;
-                }
 
-                buttonThree.setEnabled(false);
-                progressBarThree.setIndeterminate(true);
-                progressBarThree.getIndeterminateDrawable().setColorFilter(
-                        Color.BLUE, android.graphics.PorterDuff.Mode.SRC_IN);
 
-                if (Status.PAUSED == PRDownloader.getStatus(downloadIdThree)) {
-                    PRDownloader.resume(downloadIdThree);
-                    return;
-                }
-
-                downloadIdThree = PRDownloader.download(URL3, dirPath, "instagram.apk")
+                PRDownloader.download(URL3, dirPath, "instagram.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -403,6 +390,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
+                                Log.i("ddd", progressPercent + "    percent22222");
+
                                 progressBarThree.setProgress((int) progressPercent);
                                 textViewProgressThree.setText(Utils.getProgressDisplayLine(progress.currentBytes, progress.totalBytes));
                             }
@@ -410,24 +399,25 @@ public class MainActivity extends AppCompatActivity {
                         .setOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onDownloadComplete() {
+                                Log.i("ddd", "complete11");
                                 buttonThree.setEnabled(false);
                                 buttonCancelThree.setEnabled(false);
                                 buttonThree.setText(R.string.completed);
                             }
 
                         }).setOnErrorListener(new OnErrorListener() {
-                            @Override
-                            public void onError(Error error) {
-                                buttonThree.setText(R.string.start);
-                                Toast.makeText(getApplicationContext(), getString(R.string.some_error_occurred) + " " + "3", Toast.LENGTH_SHORT).show();
-                                textViewProgressThree.setText("");
-                                progressBarThree.setProgress(0);
-                                downloadIdThree = 0;
-                                buttonCancelThree.setEnabled(false);
-                                progressBarThree.setIndeterminate(false);
-                                buttonThree.setEnabled(true);
-                            }
-                        })
+                    @Override
+                    public void onError(Error error) {
+                        buttonThree.setText(R.string.start);
+                        Toast.makeText(getApplicationContext(), getString(R.string.some_error_occurred) + " " + "3", Toast.LENGTH_SHORT).show();
+                        textViewProgressThree.setText("");
+                        progressBarThree.setProgress(0);
+                        downloadIdThree = 0;
+                        buttonCancelThree.setEnabled(false);
+                        progressBarThree.setIndeterminate(false);
+                        buttonThree.setEnabled(true);
+                    }
+                })
                         .start();
             }
         });
@@ -458,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdFour);
                     return;
                 }
-                downloadIdFour = PRDownloader.download(URL4, dirPath, "flashlight.apk")
+                PRDownloader.download(URL4, dirPath, "flashlight.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -495,25 +485,25 @@ public class MainActivity extends AppCompatActivity {
                                 textViewProgressFour.setText(Utils.getProgressDisplayLine(progress.currentBytes, progress.totalBytes));
                             }
                         }).setOnCompleteListener(new OnCompleteListener() {
-                            @Override
-                            public void onDownloadComplete() {
-                                buttonFour.setEnabled(false);
-                                buttonCancelFour.setEnabled(false);
-                                buttonFour.setText(R.string.completed);
-                            }
-                        }).setOnErrorListener(new OnErrorListener() {
-                            @Override
-                            public void onError(Error error) {
-                                buttonFour.setText(R.string.start);
-                                Toast.makeText(getApplicationContext(), getString(R.string.some_error_occurred) + " " + "4", Toast.LENGTH_SHORT).show();
-                                textViewProgressFour.setText("");
-                                progressBarFour.setProgress(0);
-                                downloadIdFour = 0;
-                                buttonCancelFour.setEnabled(false);
-                                progressBarFour.setIndeterminate(false);
-                                buttonFour.setEnabled(true);
-                            }
-                        })
+                    @Override
+                    public void onDownloadComplete() {
+                        buttonFour.setEnabled(false);
+                        buttonCancelFour.setEnabled(false);
+                        buttonFour.setText(R.string.completed);
+                    }
+                }).setOnErrorListener(new OnErrorListener() {
+                    @Override
+                    public void onError(Error error) {
+                        buttonFour.setText(R.string.start);
+                        Toast.makeText(getApplicationContext(), getString(R.string.some_error_occurred) + " " + "4", Toast.LENGTH_SHORT).show();
+                        textViewProgressFour.setText("");
+                        progressBarFour.setProgress(0);
+                        downloadIdFour = 0;
+                        buttonCancelFour.setEnabled(false);
+                        progressBarFour.setIndeterminate(false);
+                        buttonFour.setEnabled(true);
+                    }
+                })
                         .start();
             }
         });
