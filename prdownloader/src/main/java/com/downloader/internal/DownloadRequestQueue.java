@@ -75,15 +75,13 @@ public class DownloadRequestQueue {
     }
 
 
-    public void pauseOthers(int... downloadIds) {
+    public void pauseOthers(int downloadId) {
         for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
             DownloadRequest request = currentRequestMapEntry.getValue();
             if (request != null) {
                 int id = request.getDownloadId();
-                for (int downloadId : downloadIds) {
-                    if (id != downloadId) {
-                        pause(request.getDownloadId());
-                    }
+                if (id != downloadId) {
+                    pause(request.getDownloadId());
                 }
             }
         }
@@ -111,15 +109,13 @@ public class DownloadRequestQueue {
     }
 
 
-    public void resumeOthers(int... downloadIds) {
+    public void resumeOthers(int downloadId) {
         for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
             DownloadRequest request = currentRequestMapEntry.getValue();
             if (request != null) {
                 int id = request.getDownloadId();
-                for (int downloadId : downloadIds) {
-                    if (id != downloadId) {
-                        resume(request.getDownloadId());
-                    }
+                if (id != downloadId) {
+                    resume(request.getDownloadId());
                 }
             }
         }

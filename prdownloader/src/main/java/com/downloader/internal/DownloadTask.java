@@ -204,7 +204,7 @@ public class DownloadTask {
                 outputStream.write(buff, 0, byteCount);
 
                 request.setDownloadedBytes(request.getDownloadedBytes() + byteCount);
-
+                Log.d("fileload", Thread.currentThread().getName() + "   " + request.getFileName());
                 sendProgress();
 
                 syncIfRequired(outputStream);

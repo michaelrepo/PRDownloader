@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 //                if (Status.RUNNING == PRDownloader.getStatus(downloadIdOne)) {
 //
 //
-//                    PRDownloader.getDownloadRequest(downloadIdOne).addOnProgressListener(new OnProgressListener() {
+//                    PRDownloader.getDownloadRequest(downloadIdOne).setOnProgressListener(new OnProgressListener() {
 //                        @Override
 //                        public void onProgress(Progress progress) {
 //                            Log.i("ddd", "ddddd");
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarOne.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                Log.i("ddd", "ddddd222222");
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarTwo.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarThree.setIndeterminate(false);
                             }
                         })
-                        .addOnProgressListener(new OnProgressListener() {
+                        .setOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBarFour.setIndeterminate(false);
                             }
                         })
-                        .addOnProgressListener(new OnProgressListener() {
+                        .setOnProgressListener(new OnProgressListener() {
                             @Override
                             public void onProgress(Progress progress) {
                                 long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -563,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarFive.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -650,7 +650,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarSix.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -737,7 +737,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarSeven.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -824,7 +824,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarEight.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -910,7 +910,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarNine.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -996,7 +996,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarTen.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1082,7 +1082,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarEleven.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1168,7 +1168,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarTwelve.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1254,7 +1254,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarThirteen.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1341,7 +1341,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarFourteen.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
@@ -1428,7 +1428,7 @@ public class MainActivity extends AppCompatActivity {
 //                                progressBarFifteen.setIndeterminate(false);
 //                            }
 //                        })
-//                        .addOnProgressListener(new OnProgressListener() {
+//                        .setOnProgressListener(new OnProgressListener() {
 //                            @Override
 //                            public void onProgress(Progress progress) {
 //                                long progressPercent = progress.currentBytes * 100 / progress.totalBytes;

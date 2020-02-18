@@ -105,8 +105,8 @@ public class PRDownloader {
         DownloadRequestQueue.getInstance().resumeAll();
     }
 
-    public static void resumeOthers(int... downloadIds) {
-        DownloadRequestQueue.getInstance().resumeOthers(downloadIds);
+    public static void resumeOthers(int downloadId) {
+        DownloadRequestQueue.getInstance().resumeOthers(downloadId);
     }
 
     /**

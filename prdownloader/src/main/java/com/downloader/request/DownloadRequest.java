@@ -16,6 +16,8 @@
 
 package com.downloader.request;
 
+import android.util.Log;
+
 import com.downloader.Error;
 import com.downloader.OnCancelListener;
 import com.downloader.OnCompleteListener;
@@ -56,7 +58,7 @@ public class DownloadRequest {
     private int readTimeout;
     private int connectTimeout;
     private String userAgent;
-    private List<OnProgressListener> onProgressListeners;
+    private List<OnProgressListener> onProgressListeners=new ArrayList<>();
     private OnCompleteListener onCompleteListener;
     private OnStartOrResumeListener onStartOrResumeListener;
     private OnPauseListener onPauseListener;
@@ -212,10 +214,11 @@ public class DownloadRequest {
         return this;
     }
 
-    public DownloadRequest addOnProgressListener(OnProgressListener onProgressListener) {
+    public DownloadRequest setOnProgressListener(OnProgressListener onProgressListener) {
         if (this.onProgressListeners == null) {
             this.onProgressListeners = new ArrayList<>();
         }
+        onProgressListeners.clear();
         this.onProgressListeners.add(onProgressListener);
         return this;
     }
@@ -243,9 +246,11 @@ public class DownloadRequest {
     public int start() {
         downloadId = Utils.getUniqueId(url, dirPath, fileName);
         if (PRDownloader.getStatus(downloadId) == Status.RUNNING) {
+            Log.i("FileDownload","正在下载，不下载了"+fileName);
             return downloadId;
         }
         DownloadRequestQueue.getInstance().addRequest(this);
+        Log.i("FileDownload","没有下载过，下载"+fileName);
         return downloadId;
     }
 

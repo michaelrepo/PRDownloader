@@ -19,6 +19,7 @@ package com.downloader.handler;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.downloader.Constants;
 import com.downloader.Progress;
@@ -43,6 +44,7 @@ public class ProgressHandler extends Handler {
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case Constants.UPDATE:
+                Log.d("FileDownload","进度监听个数"+listeners.size()+"  "+listeners.toString());
                 if (listeners != null && listeners.size() > 0) {
                     final Progress progress = (Progress) msg.obj;
                     for (int i = 0; i < listeners.size(); i++) {
