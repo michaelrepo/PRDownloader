@@ -246,7 +246,7 @@ public class DownloadRequest {
     public int start() {
         downloadId = Utils.getUniqueId(url, dirPath, fileName);
         if (PRDownloader.getStatus(downloadId) == Status.RUNNING) {
-            Log.i("FileDownload","正在下载，不下载了"+fileName);
+            Log.i("FileDownload","正在下载，不再启动新下载"+fileName);
             return downloadId;
         }
         DownloadRequestQueue.getInstance().addRequest(this);

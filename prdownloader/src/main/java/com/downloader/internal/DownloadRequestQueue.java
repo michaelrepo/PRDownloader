@@ -102,7 +102,7 @@ public class DownloadRequestQueue {
     public void resumeAll() {
         for (Map.Entry<Integer, DownloadRequest> currentRequestMapEntry : currentRequestMap.entrySet()) {
             DownloadRequest request = currentRequestMapEntry.getValue();
-            if (request != null) {
+            if (request != null && request.getStatus() != Status.RUNNING) {
                 resume(request.getDownloadId());
             }
         }
